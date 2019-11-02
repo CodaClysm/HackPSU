@@ -1,8 +1,9 @@
 package com.game.main;
 
 import java.awt.*;
+//import java.awt.Window;
 import java.awt.image.BufferStrategy;
-import java.util.logging.Handler;
+//import java.util.logging.Handler;
 
 public class Game extends Canvas implements Runnable{
 
@@ -15,6 +16,8 @@ public class Game extends Canvas implements Runnable{
     {
         new Window(WIDTH, HEIGHT, "HackPSU Game", this);
         handler = new Handler();
+        handler.addObject(new Player(100, 100, ID.Player));
+        handler.addObject(new Player(200, 200, ID.Player));
     }
 
     public synchronized void start()
@@ -67,7 +70,7 @@ public class Game extends Canvas implements Runnable{
     }
     private void tick()
     {
-        handler.tick();
+       handler.tick();
     }
     private void render()
     {
@@ -82,7 +85,7 @@ public class Game extends Canvas implements Runnable{
         g.setColor(Color.GREEN);
         g.fillRect(0,0, WIDTH, HEIGHT);
 
-        handler.render(g);
+       handler.render(g);
 
         g.dispose();
         bs.show();
