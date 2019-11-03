@@ -21,8 +21,7 @@ public class Game extends Canvas implements Runnable{
         handler = new Handler();
 
         BufferedImageLoader loader = new BufferedImageLoader();
-        handler.addObject(new Player(100, 100, ID.Player));
-        handler.addObject(new Player(200, 200, ID.Player));
+
         level = loader.loadImage("/res/level1.png"); // loading the level
         LoadImageLevel(level);
         handler.createLevel();
@@ -99,14 +98,15 @@ public class Game extends Canvas implements Runnable{
                 {
                     handler.addObject(new Block(i * 32, j * 32, ID.Block));
                 }
+                if(red == 0 && green == 0 && blue == 255)
+                {
+                    handler.addObject(new Player(i * 32, j *32 , ID.Player));
+
+                }
 
             }
         }
-
-
-
-
-
+        
     }
     private void tick()
     {

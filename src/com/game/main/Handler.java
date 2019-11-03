@@ -42,7 +42,7 @@ public class Handler {
     {
         for(int i=0; i < Game.WIDTH+32; i+=32)
         {
-            addObject(new Block(i, Game.HEIGHT-32, ID.Block));
+            addObject(new Block(i, Game.HEIGHT-62, ID.Block));
         }
     }
 }

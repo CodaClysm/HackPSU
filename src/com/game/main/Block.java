@@ -1,5 +1,7 @@
 package com.game.main;
 
+import sun.plugin2.util.ColorUtil;
+
 import java.awt.*;
 
 public class Block extends GameObject {
@@ -15,7 +17,8 @@ public class Block extends GameObject {
 
     public void render(Graphics g) {
 
-        g.setColor(Color.ORANGE);
+        g.setColor(Color.DARK_GRAY);
+        g.fillRect(x, y, 32, 32);
         g.drawRect(x, y, 32, 32);
     }
 
