@@ -1,5 +1,7 @@
 package com.game.main;
 
+import com.sun.corba.se.spi.ior.ObjectId;
+
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
@@ -12,20 +14,25 @@ public class Game extends Canvas implements Runnable{
     private Thread thread;
     private boolean running = false;
     private Handler handler;
+    Camera cam;
 
     private BufferedImage level;
+    BufferedImageLoader loader = new BufferedImageLoader();
+
+
 
     public Game()
     {
         new Window(WIDTH, HEIGHT, "HackPSU Game", this);
         handler = new Handler();
         this.addKeyListener(new KeyInput(handler));
-
+        cam = new Camera(0,0);
         BufferedImageLoader loader = new BufferedImageLoader();
 
         level = loader.loadImage("/res/level1.png"); // loading the level
         LoadImageLevel(level);
         handler.createLevel();
+        BufferedImage lightRad = loader.loadImage("/res/light-radius.png");
 
     }
 
@@ -116,7 +123,15 @@ public class Game extends Canvas implements Runnable{
     private void tick()
     {
        handler.tick();
+       for(int i = 0; i<handler.object.size(); i++)
+       {
+           if(handler.object.get(i).getId() == ID.Player)
+           {
+               cam.tick(handler.object.get(i));
+           }
+       }
     }
+
     private void render()
     {
         BufferStrategy bs = this.getBufferStrategy();
@@ -127,17 +142,36 @@ public class Game extends Canvas implements Runnable{
         }
         Graphics g = bs.getDrawGraphics();
 
+
+        Graphics2D g2d = (Graphics2D) g;
+
+
+
+
         g.setColor(Color.BLACK);
         g.fillRect(0,0, WIDTH, HEIGHT);
+       // g2d.drawImage(lightRad, null,(int)+512, (int)y-256);
 
-       handler.render(g);
+        //Beginning of camera
+        g2d.scale(1.5, 1.5);
+        g2d.translate(cam.getX()-180, cam.getY()-180);
+        handler.render(g);
+
+
+
+
+        //End of camera
+
+        g2d.translate(-cam.getX(), -cam.getY());
 
         g.dispose();
         bs.show();
 
     }
+
     public static void main(String args[])
     {
         new Game();
     }
+
 }

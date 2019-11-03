@@ -1,6 +1,7 @@
 package com.game.main;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
 public class Player extends GameObject {
@@ -14,6 +15,7 @@ public class Player extends GameObject {
         this.handler = handler;
         height = 64;
         width = 32;
+
     }
 
     public void tick(){
@@ -96,8 +98,10 @@ public class Player extends GameObject {
         g.fillRect((int)x, (int)y, (int)width, (int)height);
 
 
-        Graphics2D g2d = (Graphics2D) g;
+
         g.setColor(Color.red);
+        Graphics2D g2d = (Graphics2D) g;
+
 
 
         g2d.draw(getBoundsBottom());
