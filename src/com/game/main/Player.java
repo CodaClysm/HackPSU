@@ -110,7 +110,7 @@ public class Player extends GameObject {
                     x = tempObject.getX() + width;
                     velocityX = 0;
                 }
-            }
+            }  
             else if(tempObject.getId() == ID.LadderBlock)
             {
                 if(getBoundsTop().intersects(tempObject.getBounds()) ||

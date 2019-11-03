@@ -20,7 +20,7 @@ public class FlyingEnemy extends GameObject {
         this.handler = handler;
         height =32;
         width = 32;
-        health = 225;
+        health = 425;
         damage = 25;
         swingTimer = 0;
 
