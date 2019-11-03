@@ -107,16 +107,13 @@ public class Game extends Canvas implements Runnable{
                 if(red == 0 && green == 0 && blue == 255)
                 {
                     handler.addObject(new Player(i * 32, j *32 , handler, ID.Player));
-
                 }
                 if(red == 0 && green == 255 && blue == 0)
                 {
                     handler.addObject(new LadderBlock( i * 32, j * 32, ID.LadderBlock));
                 }
-
             }
         }
-        
     }
     private void tick()
     {
@@ -140,11 +137,7 @@ public class Game extends Canvas implements Runnable{
         }
         Graphics g = bs.getDrawGraphics();
 
-
         Graphics2D g2d = (Graphics2D) g;
-
-
-
 
         g.setColor(Color.BLACK);
         g.fillRect(0,0, WIDTH, HEIGHT);
@@ -155,16 +148,12 @@ public class Game extends Canvas implements Runnable{
         g2d.translate(cam.getX()-180, cam.getY()-180);
         handler.render(g);
 
-
-
-
         //End of camera
 
         g2d.translate(-cam.getX(), -cam.getY());
 
         g.dispose();
         bs.show();
-
     }
 
     public static void main(String args[])

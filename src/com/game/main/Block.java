@@ -21,13 +21,13 @@ public class Block extends GameObject {
     public void render(Graphics g) {
 
         g.setColor(Color.DARK_GRAY);
-        g.fillRect((int)x, (int)y, 32, 32);
-        g.drawRect((int)x, (int)y, 32, 32);
+        g.fillRect((int)x, (int)y, (int)width ,(int)height);
+        g.drawRect((int)x, (int)y, (int)width ,(int)height);
     }
 
 
     public Rectangle getBounds() {
-        return new Rectangle((int)x, (int)y, 32 ,32);
+        return new Rectangle((int)x, (int)y, (int)width ,(int)height);
     }
     public Rectangle getBoundsBottom()
     {

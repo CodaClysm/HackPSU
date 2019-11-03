@@ -8,6 +8,12 @@ public class Player extends GameObject {
 
     private float gravity = 0.2f;
     private Handler handler;
+    private int health;
+    private Weapon weapon;
+    private float damageMult;
+    private int experience;
+
+
 
     public Player () {}
     public Player(float x, float y, Handler handler, ID id) {
@@ -15,6 +21,10 @@ public class Player extends GameObject {
         this.handler = handler;
         height = 64;
         width = 32;
+        weapon = new Weapon(x + width, y - height/2, handler, ID.Weapon, this);
+        handler.object.add(weapon);
+        damageMult = 1;
+        experience = 0;
 
     }
 
@@ -26,6 +36,7 @@ public class Player extends GameObject {
             velocityY += gravity;
         }
         checkCollision();
+        checkWeapCollision();
     }
 
     private void checkCollision()
@@ -100,6 +111,30 @@ public class Player extends GameObject {
             }
         }
     }
+
+    private void checkWeapCollision()
+    {
+        for(int i = 0; i < handler.object.size(); i++)
+        {
+            GameObject tempObject = handler.object.get(i);
+            if(tempObject.getId() == ID.Enemy) {
+                if (weapon.getBounds().intersects(tempObject.getBounds())) {
+                    Enemy enemy = (Enemy)tempObject;
+                    enemy.dealDamage(damageMult * weapon.getDamage());
+                }
+            }
+        }
+    }
+
+    public void dealDamage(int damage)
+    {
+        this.health -=damage;
+        if(this.health <= 0)
+        {
+            System.out.println("Player has died.");
+            System.exit(1);
+        }
+    }
     public void render(Graphics g)
     {
 
@@ -131,6 +166,29 @@ public class Player extends GameObject {
         return new Rectangle((int)x, (int)y+5, 5, (int)height-10);
     }
     public Rectangle getBounds() {
-        return null;
+        return new Rectangle((int)x, (int)y, (int)width, (int)height);
+    }
+    public float getGravity() {
+        return gravity;
+    }
+
+    public void setGravity(float gravity) {
+        this.gravity = gravity;
+    }
+
+    public Handler getHandler() {
+        return handler;
+    }
+
+    public void setHandler(Handler handler) {
+        this.handler = handler;
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
     }
 }

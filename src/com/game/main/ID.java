@@ -5,5 +5,6 @@ public enum ID {
     Player(),
     Enemy(),
     Block(),
-    LadderBlock();
+    LadderBlock(),
+    Weapon();
 }

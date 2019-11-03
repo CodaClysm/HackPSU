@@ -18,33 +18,47 @@ public class KeyInput extends KeyAdapter {
         {
             GameObject tempObject = handler.object.get(i);
 
+            if(tempObject.getId() == ID.Weapon)
+            {
+                Weapon tempWeapon = (Weapon) tempObject;
+                if (key == KeyEvent.VK_SPACE)
+                {
+                    if(!tempWeapon.attacking) {
+                        System.out.println("Attack!");
+                        if (tempWeapon.isPointingLeft()) {
+                            tempWeapon.x += 16;
+                        } else {
+                            tempWeapon.x -= 16;
+                        }
+                        tempWeapon.attacking = true;
+                    }
+                }
+            }
             if(tempObject.getId() == ID.Player)
             {
 
-                    if (key == KeyEvent.VK_D)
-                    {
-                        tempObject.setVelocityX(5);
+                if (key == KeyEvent.VK_D)
+                {
+                    tempObject.setVelocityX(5);
 
-                    }
-                    if (key == KeyEvent.VK_A)
-                    {
-                        tempObject.setVelocityX(-5);
+                }
+                if (key == KeyEvent.VK_A)
+                {
+                    tempObject.setVelocityX(-5);
 
-                    }
-                    if (key == KeyEvent.VK_SPACE && !tempObject.isJumping())
-                    {
+                }
+                if (key == KeyEvent.VK_W && !tempObject.isJumping())
+                {
 
-                        System.out.println("JUMP");
-                        tempObject.setVelocityY(-4);
-                        tempObject.setJumping(true);
-                    }
-                    if(key == KeyEvent.VK_S && tempObject.isClimbing())
-                    {
-                        tempObject.setVelocityY(4);
-                        System.out.println("DOWN");
-                    }
-
-
+                    System.out.println("JUMP");
+                    tempObject.setVelocityY(-4);
+                    tempObject.setJumping(true);
+                }
+                if(key == KeyEvent.VK_S && tempObject.isClimbing())
+                {
+                    tempObject.setVelocityY(4);
+                    System.out.println("DOWN");
+                }
             }
         }
 
@@ -68,6 +82,24 @@ public class KeyInput extends KeyAdapter {
                 if(key == KeyEvent.VK_A) tempObject.setVelocityX(0);
 
             }
+            if(tempObject.getId() == ID.Weapon)
+            {
+                Weapon tempWeapon = (Weapon) tempObject;
+                if (key == KeyEvent.VK_SPACE)
+                {
+                    System.out.println("End Attack!");
+                    if(tempWeapon.isPointingLeft())
+                    {
+                        tempWeapon.x -= 16;
+                    }
+                    else
+                    {
+                        tempWeapon.x += 16;
+                    }
+                    tempWeapon.attacking = false;
+                }
+            }
         }
+
     }
 }

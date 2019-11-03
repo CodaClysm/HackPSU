@@ -15,7 +15,6 @@ public abstract class GameObject {
     protected boolean jumping = false;
 
 
-
     protected boolean climbing = false;
 
     public GameObject()
