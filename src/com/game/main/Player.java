@@ -13,6 +13,8 @@ public class Player extends GameObject {
     private float damageMult;
     private int experience;
     private int swingTimer;
+    private LabelElements healthLabel;
+    private LabelElements expLabel;
 
 
 
@@ -28,6 +30,10 @@ public class Player extends GameObject {
         damageMult = 1;
         experience = 0;
         health = 100;
+        healthLabel = new LabelElements((int)x, (int)y , handler, ID.LabelElements, this, "Health:" + Integer.toString(health));
+        expLabel = new LabelElements((int)x, (int)y+20 , handler, ID.LabelElements, this, "Exp:" + Integer.toString(experience));
+        handler.object.add(healthLabel);
+        handler.object.add(expLabel);
 
 
     }
@@ -44,9 +50,21 @@ public class Player extends GameObject {
             weapon.attacking = false;
             checkWeapCollision();
         }
+        updateLabels();
 
     }
+    private void updateLabels()
+    {
+        for(int i = 0; i < handler.object.size(); i++) {
+            GameObject tempObject = handler.object.get(i);
+            if (tempObject.getId() == ID.LabelElements) {
 
+                healthLabel.setMessage("Health:" + Integer.toString(this.health));
+                expLabel.setMessage("Experience:" + Integer.toString(this.experience) + "/100");
+            }
+
+        }
+    }
     private void checkCollision()
     {
         for(int i = 0; i < handler.object.size(); i++)
@@ -153,6 +171,7 @@ public class Player extends GameObject {
         g2d.draw(getBoundsLeft());
         g2d.draw(getBoundsRight());
         g2d.draw(getBoundsTop());
+
     }
 
     public Rectangle getBoundsBottom()
