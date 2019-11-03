@@ -6,4 +6,5 @@ public enum ID {
     Enemy(),
     Block(),
     LadderBlock();
+  //  FlyingEnemy();
 }

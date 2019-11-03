@@ -4,19 +4,21 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
 
-public class Player extends GameObject {
+public class Enemy extends GameObject {
 
     private float gravity = 0.2f;
     private Handler handler;
+    int health;
+    int swingTimer;
 
-    public Player () {}
-    public Player(float x, float y, Handler handler, ID id) {
+    public Enemy () {}
+    public Enemy(float x, float y, Handler handler, ID id) {
         super(x, y, id);
         this.handler = handler;
         height = 64;
         width = 32;
-
-
+        health = 100;
+        swingTimer = 0;
     }
 
     public void tick(){
@@ -27,14 +29,45 @@ public class Player extends GameObject {
             velocityY += gravity;
         }
         checkCollision();
+        pursuePlayer();
+        swingTimer++;
     }
+    public void dealDamage(int damage)
+    {
+        health = health - damage;
+        if(health < 0)
+        {
+            handler.removeObject(this);
+        }
+    }
+    private void pursuePlayer()
+    {
+        for(int i = 0; i < handler.object.size(); i++)
+        {
+            GameObject tempObject = handler.object.get(i);
+
+            if(tempObject.getId() == ID.Player)
+            {
+                if(this.x < tempObject.getX())
+                {
+                    this.setVelocityX(1);
+                }
+                else if(this.x > tempObject.getX())
+                {
+                    this.setVelocityX(-1);
+                }
+            }
+        }
+
+    }
+
 
     private void checkCollision()
     {
         for(int i = 0; i < handler.object.size(); i++)
         {
             GameObject tempObject = handler.object.get(i);
-            if(tempObject.getId() == ID.Block)
+            if(tempObject.getId() == ID.Block || tempObject.getId() == ID.LadderBlock)
             {
                 if(getBoundsBottom().intersects(tempObject.getBounds()))
                 {
@@ -66,46 +99,28 @@ public class Player extends GameObject {
                     velocityX = 0;
                 }
             }
-            else if(tempObject.getId() == ID.LadderBlock)
+            else if(tempObject.getId() == ID.Player)
             {
-                if(getBoundsTop().intersects(tempObject.getBounds()) ||
-                        getBoundsRight().intersects(tempObject.getBounds()) ||
-                        getBoundsLeft().intersects(tempObject.getBounds()))
-                {
-                //getBoundsBottom().intersects(tempObject.getBounds())
-                            climbing = true;
-                            jumping = false;
-                            falling = false;
-                            velocityY = 0;
-                }
-                //if bottom is clipping but not sides, it is resting on top of the ladder.
-                //treat as if sitting on a block
-                //define a new left and right bounds
-                Rectangle right = getBoundsRight();
-                Rectangle left = getBoundsLeft();
-                right.setLocation((int)right.getX(), (int)right.getY()-5);
-                left.setLocation((int)left.getX(), (int)left.getY()-5);
-                if(!(right.intersects(tempObject.getBounds()) ||
-                        left.intersects(tempObject.getBounds()))
-                    && getBoundsBottom().intersects(tempObject.getBounds()))
-                {
-                    climbing = false;
-                    if(!jumping)
-                    {
-                        velocityY = 0;
-                        y = tempObject.getY() - height;
-                    }
-                    jumping = false;
-                }
 
+                if(tempObject.getBounds().intersects(this.getBounds()))
+                {
+                    if(swingTimer > 60)
+                    {
+                        swingTimer = 0;
+                        System.out.println("Damage dealt to player!");
+                    }
+
+                }
             }
+
         }
     }
     public void render(Graphics g)
     {
-        g.setColor(Color.white);
-        g.fillRect((int)x, (int)y, (int)width, (int)height);
+
         g.setColor(Color.red);
+        g.fillRect((int)x, (int)y, (int)width, (int)height);
+        g.setColor(Color.white);
         Graphics2D g2d = (Graphics2D) g;
         g2d.draw(getBoundsBottom());
         g2d.draw(getBoundsLeft());
@@ -115,7 +130,7 @@ public class Player extends GameObject {
 
     public Rectangle getBoundsBottom()
     {
-       // return new Rectangle((int)((int)x +(width/2)-((width/2)/2)), (int)y + (int)(height/2), (int)width/2, (int)(height/2));
+        // return new Rectangle((int)((int)x +(width/2)-((width/2)/2)), (int)y + (int)(height/2), (int)width/2, (int)(height/2));
         return new Rectangle((int)((int)x +(width/2)-((width/2)/2)), (int)y + (int)(height/2), (int)width/2, (int)(height/2));
     }
     public Rectangle getBoundsTop()
@@ -131,8 +146,6 @@ public class Player extends GameObject {
         return new Rectangle((int)x, (int)y+5, 5, (int)height-10);
     }
     public Rectangle getBounds() {
-
         return new Rectangle((int)x, (int)y, (int)width ,(int)height);
-
     }
 }

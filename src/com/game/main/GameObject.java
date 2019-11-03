@@ -1,6 +1,7 @@
 package com.game.main;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 
 public abstract class GameObject {
 
@@ -37,7 +38,9 @@ public abstract class GameObject {
         this.id = id;
         this.height = height;
         this.width = width;
+
     }
+
 
     //Abstract functions must be implemented in the classes that inherit from GameObject
     public abstract void tick();
