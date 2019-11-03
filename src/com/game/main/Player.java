@@ -25,17 +25,16 @@ public class Player extends GameObject {
         {
             velocityY += gravity;
         }
-        collision(handler.object);
+        checkCollision();
     }
 
-    private void collision(LinkedList<GameObject> object)
+    private void checkCollision()
     {
         for(int i = 0; i < handler.object.size(); i++)
         {
             GameObject tempObject = handler.object.get(i);
             if(tempObject.getId() == ID.Block)
             {
-
                 if(getBoundsBottom().intersects(tempObject.getBounds()))
                 {
                     climbing = false;
@@ -44,9 +43,7 @@ public class Player extends GameObject {
                         velocityY = 0;
                         y = tempObject.getY() - height;
                     }
-                    //falling = false;
                     jumping = false;
-
                 }
                 else
                 {
@@ -56,37 +53,49 @@ public class Player extends GameObject {
                 {
                     y = tempObject.getY() + tempObject.height;
                     velocityY = 0;
-
-
                 }
                 if(getBoundsRight().intersects(tempObject.getBounds()))
                 {
                     x = tempObject.getX() - width;
                     velocityX = 0;
-
-
                 }
                 if(getBoundsLeft().intersects(tempObject.getBounds()))
                 {
                     x = tempObject.getX() + width;
                     velocityX = 0;
-
-
                 }
             }
             else if(tempObject.getId() == ID.LadderBlock)
             {
-                if(getBoundsTop().intersects(tempObject.getBounds()) || getBoundsRight().intersects(tempObject.getBounds()) || getBoundsLeft().intersects(tempObject.getBounds()))
+                if(getBoundsTop().intersects(tempObject.getBounds()) ||
+                        getBoundsRight().intersects(tempObject.getBounds()) ||
+                        getBoundsLeft().intersects(tempObject.getBounds()))
                 {
                 //getBoundsBottom().intersects(tempObject.getBounds())
                             climbing = true;
                             jumping = false;
                             falling = false;
                             velocityY = 0;
-
                 }
-
-
+                //if bottom is clipping but not sides, it is resting on top of the ladder.
+                //treat as if sitting on a block
+                //define a new left and right bounds
+                Rectangle right = getBoundsRight();
+                Rectangle left = getBoundsLeft();
+                right.setLocation((int)right.getX(), (int)right.getY()-5);
+                left.setLocation((int)left.getX(), (int)left.getY()-5);
+                if(!(right.intersects(tempObject.getBounds()) ||
+                        left.intersects(tempObject.getBounds()))
+                    && getBoundsBottom().intersects(tempObject.getBounds()))
+                {
+                    climbing = false;
+                    if(!jumping)
+                    {
+                        velocityY = 0;
+                        y = tempObject.getY() - height;
+                    }
+                    jumping = false;
+                }
 
             }
         }
@@ -96,14 +105,8 @@ public class Player extends GameObject {
 
         g.setColor(Color.white);
         g.fillRect((int)x, (int)y, (int)width, (int)height);
-
-
-
         g.setColor(Color.red);
         Graphics2D g2d = (Graphics2D) g;
-
-
-
         g2d.draw(getBoundsBottom());
         g2d.draw(getBoundsLeft());
         g2d.draw(getBoundsRight());
