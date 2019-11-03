@@ -27,7 +27,7 @@ public class Game extends Canvas implements Runnable{
         handler = new Handler();
         this.addKeyListener(new KeyInput(handler));
         cam = new Camera(0,0);
-        BufferedImageLoader loader = new BufferedImageLoader();
+
 
         level = loader.loadImage("/res/level1.png"); // loading the level
         LoadImageLevel(level);
