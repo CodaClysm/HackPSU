@@ -162,7 +162,7 @@ public class Player extends GameObject {
         for(int i = 0; i < handler.object.size(); i++)
         {
             GameObject tempObject = handler.object.get(i);
-            if(tempObject.getId() == ID.Enemy) {
+            if(tempObject.getId() == ID.Enemy || tempObject.getId() == ID.FlyingEnemy) {
                 if (weapon.getBounds().intersects(tempObject.getBounds())) {
 
                     if(tempObject instanceof Enemy)
@@ -172,6 +172,7 @@ public class Player extends GameObject {
                     }
                     else if(tempObject instanceof FlyingEnemy)
                     {
+                        System.out.println("boss hit");
                         FlyingEnemy enemy2 = (FlyingEnemy)tempObject;
                         enemy2.takeDamage((int)damageMult * weapon.getDamage());
                     }

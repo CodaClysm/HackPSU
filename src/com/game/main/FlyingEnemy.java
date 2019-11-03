@@ -20,7 +20,7 @@ public class FlyingEnemy extends GameObject {
         this.handler = handler;
         height =32;
         width = 32;
-        health =  25;
+        health = 225;
         damage = 25;
         swingTimer = 0;
 
@@ -43,7 +43,7 @@ public class FlyingEnemy extends GameObject {
         y += velocityY;
 
         checkCollision();
-        if(Math.hypot(x-player.x, y-player.y) < 352) {
+        if(Math.hypot(x-player.x, y-player.y) < 280) {
             pursuePlayer();
         }
         swingTimer++;
@@ -62,11 +62,11 @@ public class FlyingEnemy extends GameObject {
     private void pursuePlayer()
     {
 
-        if(this.x < player.getX())
+        if(this.x < player.getX() + (player.getWidth()-5))
         {
             this.setVelocityX(2);
         }
-        if(this.x > player.getX())
+        if(this.x > player.getX() + (player.getWidth()-5))
         {
             this.setVelocityX(-2);
         }
