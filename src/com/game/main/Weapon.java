@@ -43,8 +43,6 @@ public class Weapon extends GameObject
     {
         g.setColor(Color.green);
         g.fillRect((int)x, (int)y, (int)width, (int)height);
-        g.setColor(Color.red);
-        Graphics2D g2d = (Graphics2D) g;
     }
 
     public Rectangle getBounds() {

@@ -12,9 +12,7 @@ public class Player extends GameObject {
     private Weapon weapon;
     private float damageMult;
     private int experience;
-    private int swingTimer;
-
-
+    private int healthTimer;
 
 
     public Player () {}
@@ -28,13 +26,22 @@ public class Player extends GameObject {
         damageMult = 1;
         experience = 0;
         health = 100;
-
+        healthTimer = 0;
 
     }
 
     public void tick(){
         x += velocityX;
         y += velocityY;
+        healthTimer ++;
+        if (healthTimer == 30)
+        {
+            if(health != 100)
+            {
+                health++;
+            }
+            healthTimer = 0;
+        }
         if (falling || jumping)
         {
             velocityY += gravity;
@@ -44,6 +51,7 @@ public class Player extends GameObject {
             weapon.attacking = false;
             checkWeapCollision();
         }
+        checkLevelUp();
 
     }
 
@@ -117,6 +125,16 @@ public class Player extends GameObject {
                 }
 
             }
+            else if (tempObject.getId() == ID.Experience)
+            {
+                Experience expOrb = (Experience) tempObject;
+                if(getBounds().intersects(expOrb.getBounds()))
+                {
+                    handler.removeObject(expOrb);
+                    experience += expOrb.getValue();
+                    System.out.println("Player has picked up expereience. Current exp: " + experience);
+                }
+            }
         }
     }
 
@@ -128,19 +146,23 @@ public class Player extends GameObject {
             if(tempObject.getId() == ID.Enemy) {
                 if (weapon.getBounds().intersects(tempObject.getBounds())) {
                     Enemy enemy = (Enemy)tempObject;
-                    enemy.dealDamage((int)damageMult * weapon.getDamage());
+                    enemy.takeDamage((int)damageMult * weapon.getDamage());
                 }
             }
         }
     }
 
-    public void dealDamage(int damage)
+    public void takeDamage(int damage)
     {
         this.health -=damage;
         if(this.health <= 0)
         {
             System.out.println("Player has died.");
             System.exit(1);
+        }
+        else
+        {
+            System.out.println("Current Health is: "+getHealth());
         }
     }
     public void render(Graphics g)
@@ -153,6 +175,15 @@ public class Player extends GameObject {
         g2d.draw(getBoundsLeft());
         g2d.draw(getBoundsRight());
         g2d.draw(getBoundsTop());
+    }
+
+    private void checkLevelUp()
+    {
+        if ((experience / 100) > 0 )
+        {
+            damageMult *= 2;
+            experience %= 100;
+        }
     }
 
     public Rectangle getBoundsBottom()

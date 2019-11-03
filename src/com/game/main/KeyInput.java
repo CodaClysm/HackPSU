@@ -24,7 +24,6 @@ public class KeyInput extends KeyAdapter {
                 if (key == KeyEvent.VK_SPACE)
                 {
                     if(!tempWeapon.attacking) {
-                        System.out.println("Attack!");
                         if (tempWeapon.isPointingLeft()) {
                             tempWeapon.x += 16;
                         } else {
@@ -50,14 +49,12 @@ public class KeyInput extends KeyAdapter {
                 if (key == KeyEvent.VK_W && !tempObject.isJumping())
                 {
 
-                    System.out.println("JUMP");
                     tempObject.setVelocityY(-4);
                     tempObject.setJumping(true);
                 }
                 if(key == KeyEvent.VK_S && tempObject.isClimbing())
                 {
                     tempObject.setVelocityY(4);
-                    System.out.println("DOWN");
                 }
             }
         }

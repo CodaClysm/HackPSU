@@ -34,11 +34,13 @@ public class Enemy extends GameObject {
         pursuePlayer();
         swingTimer++;
     }
-    public void dealDamage(int damage)
+    public void takeDamage(int damage)
     {
         health = health - damage;
         if(health < 0)
         {
+            Experience exp = new Experience(x+(width/2), y, handler, ID.Experience, 35);
+            handler.addObject(exp);
             handler.removeObject(this);
         }
     }
@@ -110,7 +112,7 @@ public class Enemy extends GameObject {
                     {
                         swingTimer = 0;
                         System.out.println("Damage dealt to player!");
-                        tempPlayer.dealDamage(damage);
+                        tempPlayer.takeDamage(damage);
                     }
 
                 }
