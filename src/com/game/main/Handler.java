@@ -38,4 +38,11 @@ public class Handler {
         this.object.remove(object);
     }
 
+    public void createLevel()
+    {
+        for(int i=0; i < Game.WIDTH+32; i+=32)
+        {
+            addObject(new Block(i, Game.HEIGHT-32, ID.Block));
+        }
+    }
 }
