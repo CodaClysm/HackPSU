@@ -19,11 +19,7 @@ public class Game extends Canvas implements Runnable{
     {
         new Window(WIDTH, HEIGHT, "HackPSU Game", this);
         handler = new Handler();
-<<<<<<< HEAD
-        handler.addObject(new Player(100, 100, handler, ID.Player));
-        handler.addObject(new Player(200, 200, handler, ID.Player));
         this.addKeyListener(new KeyInput(handler));
-=======
 
         BufferedImageLoader loader = new BufferedImageLoader();
 
@@ -31,7 +27,6 @@ public class Game extends Canvas implements Runnable{
         LoadImageLevel(level);
         handler.createLevel();
 
->>>>>>> 26ced46057f70b1e976d59935a5cf7a0acd3b37b
     }
 
     public synchronized void start()
@@ -106,7 +101,7 @@ public class Game extends Canvas implements Runnable{
                 }
                 if(red == 0 && green == 0 && blue == 255)
                 {
-                    handler.addObject(new Player(i * 32, j *32 , ID.Player));
+                    handler.addObject(new Player(i * 32, j *32 , handler, ID.Player));
 
                 }
 

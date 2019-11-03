@@ -8,7 +8,7 @@ public class Player extends GameObject {
     private float gravity = 0.05f;
     private Handler handler;
 
-    public Player () {};
+    public Player () {}
     public Player(float x, float y, Handler handler, ID id) {
         super(x, y, id);
         this.handler = handler;
@@ -75,7 +75,6 @@ public class Player extends GameObject {
         g2d.draw(getBoundsTop());
     }
 
-<<<<<<< HEAD
     public Rectangle getBoundsBottom()
     {
         return new Rectangle((int)((int)x +(width/2)-((width/2)/2)), (int)y + (int)(height/2) + 5, (int)width/2, (int)(height/2)-10);
@@ -92,12 +91,7 @@ public class Player extends GameObject {
     {
         return new Rectangle((int)x, (int)y+5, 5, (int)height-10);
     }
-
-
-
-=======
     public Rectangle getBounds() {
         return null;
     }
->>>>>>> 26ced46057f70b1e976d59935a5cf7a0acd3b37b
 }
