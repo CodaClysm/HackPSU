@@ -1,7 +1,5 @@
 package com.game.main;
 
-import com.sun.corba.se.spi.ior.ObjectId;
-
 import java.awt.*;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
