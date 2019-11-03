@@ -20,6 +20,7 @@ public abstract class GameObject {
     //Abstract functions must be implemented in the classes that inheirrit from GameObject
     public abstract void tick();
     public abstract void render(Graphics g);
+    public abstract Rectangle getBounds();
 
     public int getX() {
         return x;
