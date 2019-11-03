@@ -75,6 +75,7 @@ public class Player extends GameObject {
         g2d.draw(getBoundsTop());
     }
 
+<<<<<<< HEAD
     public Rectangle getBoundsBottom()
     {
         return new Rectangle((int)((int)x +(width/2)-((width/2)/2)), (int)y + (int)(height/2) + 5, (int)width/2, (int)(height/2)-10);
@@ -94,4 +95,9 @@ public class Player extends GameObject {
 
 
 
+=======
+    public Rectangle getBounds() {
+        return null;
+    }
+>>>>>>> 26ced46057f70b1e976d59935a5cf7a0acd3b37b
 }

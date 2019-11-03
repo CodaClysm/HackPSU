@@ -1,24 +1,37 @@
 package com.game.main;
 
 import java.awt.*;
-//import java.awt.Window;
 import java.awt.image.BufferStrategy;
+import java.awt.image.BufferedImage;
+//import java.awt.Window;
 //import java.util.logging.Handler;
 
 public class Game extends Canvas implements Runnable{
 
-    public static final int WIDTH = 640, HEIGHT = WIDTH/12*9;
+    public static final int WIDTH = 1024, HEIGHT = WIDTH/12*9;
     private Thread thread;
     private boolean running = false;
     private Handler handler;
+
+    private BufferedImage level;
 
     public Game()
     {
         new Window(WIDTH, HEIGHT, "HackPSU Game", this);
         handler = new Handler();
+<<<<<<< HEAD
         handler.addObject(new Player(100, 100, handler, ID.Player));
         handler.addObject(new Player(200, 200, handler, ID.Player));
         this.addKeyListener(new KeyInput(handler));
+=======
+
+        BufferedImageLoader loader = new BufferedImageLoader();
+
+        level = loader.loadImage("/res/level1.png"); // loading the level
+        LoadImageLevel(level);
+        handler.createLevel();
+
+>>>>>>> 26ced46057f70b1e976d59935a5cf7a0acd3b37b
     }
 
     public synchronized void start()
@@ -69,6 +82,38 @@ public class Game extends Canvas implements Runnable{
             }
         }
     }
+    private void LoadImageLevel(BufferedImage image)
+    {
+        int w = image.getWidth();
+        int h = image.getHeight();
+
+        System.out.println("width, height: " + w + " " + h);
+
+
+        for(int i = 0; i < h; i++)
+        {
+            for(int j = 0; j < w; j++)
+            {
+
+                int pixel = image.getRGB(i, j);
+                int red = (pixel >> 16) & 0xff;
+                int green = (pixel >> 8) & 0xff;
+                int blue  = (pixel) & 0xff;
+
+                if(red == 255 && green == 255 && blue == 255)
+                {
+                    handler.addObject(new Block(i * 32, j * 32, ID.Block));
+                }
+                if(red == 0 && green == 0 && blue == 255)
+                {
+                    handler.addObject(new Player(i * 32, j *32 , ID.Player));
+
+                }
+
+            }
+        }
+        
+    }
     private void tick()
     {
        handler.tick();
@@ -83,7 +128,7 @@ public class Game extends Canvas implements Runnable{
         }
         Graphics g = bs.getDrawGraphics();
 
-        g.setColor(Color.GREEN);
+        g.setColor(Color.BLACK);
         g.fillRect(0,0, WIDTH, HEIGHT);
 
        handler.render(g);

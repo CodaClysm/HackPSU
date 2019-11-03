@@ -30,6 +30,7 @@ public abstract class GameObject {
     //Abstract functions must be implemented in the classes that inherit from GameObject
     public abstract void tick();
     public abstract void render(Graphics g);
+    public abstract Rectangle getBounds();
 
     public float getX() {return x;}
     public void setX(float x) {this.x = x;}
