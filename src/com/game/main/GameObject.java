@@ -4,61 +4,70 @@ import java.awt.*;
 
 public abstract class GameObject {
 
-
-    protected int x,y;
+    protected float x,y;
+    protected float width;
+    protected float height;
     protected ID id;
-    protected int velocityX, velocityY;
 
+    protected float velocityX, velocityY;
 
-    public GameObject(int x, int y, ID id)
+    protected boolean falling = true;
+    protected boolean jumping = false;
+
+    public GameObject()
+    {
+        this.x = 0;
+        this.y = 0;
+        this.id = null;
+    }
+    public GameObject(float x, float y, ID id)
     {
         this.x = x;
         this.y = y;
         this.id = id;
     }
 
-    //Abstract functions must be implemented in the classes that inheirrit from GameObject
+    //Abstract functions must be implemented in the classes that inherit from GameObject
     public abstract void tick();
     public abstract void render(Graphics g);
 
-    public int getX() {
-        return x;
-    }
+    public float getX() {return x;}
+    public void setX(float x) {this.x = x;}
 
-    public void setX(int x) {
-        this.x = x;
-    }
-
-    public int getY() {
-        return y;
-    }
-
-    public void setY(int y) {
-        this.y = y;
-    }
+    public float getY() {return y;}
+    public void setY(float y) {this.y = y; }
 
     public ID getId() {
         return id;
     }
-
     public void setId(ID id) {
         this.id = id;
     }
-    public int getVelocityX() {
-        return velocityX;
-    }
 
-    public void setVelocityX(int velocityX) {
-        this.velocityX = velocityX;
-    }
+    public float getVelocityX() {return velocityX;}
+    public void setVelocityX(float velocityX) {this.velocityX = velocityX; }
 
-    public int getVelocityY() {
-        return velocityY;
-    }
+    public float getVelocityY() {return velocityY;}
+    public void setVelocityY(float velocityY) {this.velocityY = velocityY;}
 
-    public void setVelocityY(int velocityY) {
-        this.velocityY = velocityY;
-    }
+    public boolean isFalling() { return falling; }
+    public void setFalling(boolean falling) {this.falling = falling; }
+
+    public boolean isJumping() {return jumping; }
+    public void setJumping(boolean jumping) {this.jumping = jumping; }
+    public float getWidth() {return width;}
+
+    public void setWidth(float width) {this.width = width;}
+
+    public float getHeight() {return height;}
+
+    public void setHeight(float height) {this.height = height;}
+
+    public Rectangle getBounds(){return null;}
+    abstract public Rectangle getBoundsBottom();
+    abstract public Rectangle getBoundsLeft();
+    abstract public Rectangle getBoundsRight();
+    abstract public Rectangle getBoundsTop();
 
 
 

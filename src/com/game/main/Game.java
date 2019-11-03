@@ -16,8 +16,9 @@ public class Game extends Canvas implements Runnable{
     {
         new Window(WIDTH, HEIGHT, "HackPSU Game", this);
         handler = new Handler();
-        handler.addObject(new Player(100, 100, ID.Player));
-        handler.addObject(new Player(200, 200, ID.Player));
+        handler.addObject(new Player(100, 100, handler, ID.Player));
+        handler.addObject(new Player(200, 200, handler, ID.Player));
+        this.addKeyListener(new KeyInput(handler));
     }
 
     public synchronized void start()
