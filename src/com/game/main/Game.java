@@ -155,7 +155,6 @@ public class Game extends Canvas implements Runnable{
         g2d.scale(1.5, 1.5);
         g2d.translate(cam.getX()-180, cam.getY()-180);
         handler.render(g);
-
         //End of camera
 
         g2d.translate(-cam.getX(), -cam.getY());

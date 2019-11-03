@@ -7,7 +7,8 @@ public enum ID {
     Block(),
     LadderBlock(),
     Weapon(),
-    Experience();
+    Experience(),
+    LabelElements();
   //  FlyingEnemy();
 
 }
