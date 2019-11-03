@@ -203,6 +203,7 @@ public class Player extends GameObject {
         {
             damageMult *= 2;
             experience %= 100;
+            health = 100;
         }
     }
 

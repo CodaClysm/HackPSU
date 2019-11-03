@@ -3,11 +3,13 @@ package com.game.main;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.LinkedList;
+import java.math.*;
 
 public class FlyingEnemy extends GameObject {
 
     private Handler handler;
     int health;
+    Player player;
 
     public FlyingEnemy () {}
     public FlyingEnemy(float x, float y, Handler handler, ID id) {
@@ -17,12 +19,26 @@ public class FlyingEnemy extends GameObject {
         width = 32;
         health = 25;
 
+        for(int i = 0; i < handler.object.size(); i++)
+        {
+            GameObject tempObject = handler.object.get(i);
+
+            if(tempObject.getId() == ID.Player)
+            {
+                player = (Player) tempObject;
+            }
+
+        }
+
+
     }
 
     public void tick(){
         x += velocityX;
         y += velocityY;
+
         checkCollision();
+        if(Math.hypot(x-player.x, y-player.y) < 352);
         pursuePlayer();
     }
     public void dealDamage(int damage)
@@ -35,31 +51,24 @@ public class FlyingEnemy extends GameObject {
     }
     private void pursuePlayer()
     {
-        for(int i = 0; i < handler.object.size(); i++)
+
+        if(this.x < player.getX())
         {
-            GameObject tempObject = handler.object.get(i);
-
-            if(tempObject.getId() == ID.Player)
-            {
-                if(this.x < tempObject.getX())
-                {
-                    this.setVelocityX(2);
-                }
-                if(this.x > tempObject.getX())
-                {
-                    this.setVelocityX(-2);
-                }
-                if(this.y < tempObject.getY())
-                {
-                    this.setVelocityY(2);
-                }
-                if(this.y > tempObject.getY())
-                {
-                    this.setVelocityX(-2);
-                }
-            }
-
+            this.setVelocityX(2);
         }
+        if(this.x > player.getX())
+        {
+            this.setVelocityX(-2);
+        }
+        if(this.y < player.getY())
+        {
+            this.setVelocityY(2);
+        }
+        if(this.y > player.getY())
+        {
+            this.setVelocityY(-2);
+        }
+
 
     }
 
