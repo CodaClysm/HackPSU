@@ -14,6 +14,10 @@ public abstract class GameObject {
     protected boolean falling = true;
     protected boolean jumping = false;
 
+
+
+    protected boolean climbing = false;
+
     public GameObject()
     {
         this.x = 0;
@@ -70,6 +74,14 @@ public abstract class GameObject {
     public float getHeight() {return height;}
 
     public void setHeight(float height) {this.height = height;}
+
+    public boolean isClimbing() {
+        return climbing;
+    }
+
+    public void setClimbing(boolean climbing) {
+        this.climbing = climbing;
+    }
 
     public Rectangle getBounds(){return null;}
     public abstract Rectangle getBoundsBottom();

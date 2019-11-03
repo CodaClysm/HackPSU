@@ -5,7 +5,7 @@ import java.util.LinkedList;
 
 public class Player extends GameObject {
 
-    private float gravity = 0.09f;
+    private float gravity = 0.2f;
     private Handler handler;
 
     public Player () {}
@@ -36,6 +36,7 @@ public class Player extends GameObject {
 
                 if(getBoundsBottom().intersects(tempObject.getBounds()))
                 {
+                    climbing = false;
                     if(!jumping)
                     {
                         velocityY = 0;
@@ -43,6 +44,7 @@ public class Player extends GameObject {
                     }
                     //falling = false;
                     jumping = false;
+
                 }
                 else
                 {
@@ -70,6 +72,21 @@ public class Player extends GameObject {
 
                 }
             }
+            else if(tempObject.getId() == ID.LadderBlock)
+            {
+                if(getBoundsTop().intersects(tempObject.getBounds()) || getBoundsRight().intersects(tempObject.getBounds()) || getBoundsLeft().intersects(tempObject.getBounds()))
+                {
+                //getBoundsBottom().intersects(tempObject.getBounds())
+                            climbing = true;
+                            jumping = false;
+                            falling = false;
+                            velocityY = 0;
+
+                }
+
+
+
+            }
         }
     }
     public void render(Graphics g)
@@ -91,6 +108,7 @@ public class Player extends GameObject {
 
     public Rectangle getBoundsBottom()
     {
+       // return new Rectangle((int)((int)x +(width/2)-((width/2)/2)), (int)y + (int)(height/2), (int)width/2, (int)(height/2));
         return new Rectangle((int)((int)x +(width/2)-((width/2)/2)), (int)y + (int)(height/2), (int)width/2, (int)(height/2));
     }
     public Rectangle getBoundsTop()

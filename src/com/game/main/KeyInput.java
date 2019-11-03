@@ -6,7 +6,6 @@ import java.io.ObjectInputStream;
 
 public class KeyInput extends KeyAdapter {
     Handler handler;
-
     public KeyInput(Handler handler)
     {
         this.handler = handler;
@@ -21,20 +20,31 @@ public class KeyInput extends KeyAdapter {
 
             if(tempObject.getId() == ID.Player)
             {
-                if(key == KeyEvent.VK_D)
-                {
-                    tempObject.setVelocityX(5);
-                }
-                if(key == KeyEvent.VK_A)
-                {
-                    tempObject.setVelocityX(-5);
-                }
-                if(key == KeyEvent.VK_SPACE && !tempObject.isJumping())
-                {
-                    System.out.println("JUMP");
-                    tempObject.setVelocityY(-4);
-                    tempObject.setJumping(true);
-                }
+
+                    if (key == KeyEvent.VK_D)
+                    {
+                        tempObject.setVelocityX(5);
+
+                    }
+                    if (key == KeyEvent.VK_A)
+                    {
+                        tempObject.setVelocityX(-5);
+
+                    }
+                    if (key == KeyEvent.VK_SPACE && !tempObject.isJumping())
+                    {
+
+                        System.out.println("JUMP");
+                        tempObject.setVelocityY(-4);
+                        tempObject.setJumping(true);
+                    }
+                    if(key == KeyEvent.VK_S && tempObject.isClimbing())
+                    {
+                        tempObject.setVelocityY(4);
+                        System.out.println("DOWN");
+                    }
+
+
             }
         }
 
@@ -43,6 +53,7 @@ public class KeyInput extends KeyAdapter {
             System.exit(1);
         }
     }
+
     public void keyReleased(KeyEvent e)
     {
         int key = e.getKeyCode();
