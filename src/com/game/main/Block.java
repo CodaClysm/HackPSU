@@ -7,7 +7,11 @@ public class Block extends GameObject {
 
     public Block(int x, int y, ID id) {
         super(x, y, id);
+         height = 32.0f;
+         width = 32.0f;
     }
+
+
 
     public void tick() {
 
@@ -25,4 +29,23 @@ public class Block extends GameObject {
     public Rectangle getBounds() {
         return new Rectangle((int)x, (int)y, 32 ,32);
     }
+    public Rectangle getBoundsBottom()
+    {
+        return null;
+    }
+    public Rectangle getBoundsTop()
+    {
+        return null;
+    }
+    public Rectangle getBoundsRight()
+    {
+        return null;
+    }
+    public Rectangle getBoundsLeft()
+    {
+        return null;
+    }
+
+
+
 }

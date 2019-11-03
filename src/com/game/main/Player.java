@@ -5,13 +5,15 @@ import java.util.LinkedList;
 
 public class Player extends GameObject {
 
-    private float gravity = 0.05f;
+    private float gravity = 0.09f;
     private Handler handler;
 
     public Player () {}
     public Player(float x, float y, Handler handler, ID id) {
         super(x, y, id);
         this.handler = handler;
+        height = 64;
+        width = 32;
     }
 
     public void tick(){
@@ -31,44 +33,56 @@ public class Player extends GameObject {
             GameObject tempObject = handler.object.get(i);
             if(tempObject.getId() == ID.Block)
             {
+
                 if(getBoundsBottom().intersects(tempObject.getBounds()))
                 {
-                    y = tempObject.getY() - height;
-                    velocityY = 0;
-                    falling = false;
+                    if(!jumping)
+                    {
+                        velocityY = 0;
+                        y = tempObject.getY() - height;
+                    }
+                    //falling = false;
                     jumping = false;
+                }
+                else
+                {
+                    falling = true;
                 }
                 if(getBoundsTop().intersects(tempObject.getBounds()))
                 {
-                    y = tempObject.getY() + height;
+                    y = tempObject.getY() + tempObject.height;
                     velocityY = 0;
-                    falling = false;
-                    jumping = false;
+
+
                 }
                 if(getBoundsRight().intersects(tempObject.getBounds()))
                 {
-                    y = tempObject.getX() - width;
+                    x = tempObject.getX() - width;
                     velocityX = 0;
-                    falling = false;
-                    jumping = false;
+
+
                 }
                 if(getBoundsLeft().intersects(tempObject.getBounds()))
                 {
-                    y = tempObject.getX() + width;
+                    x = tempObject.getX() + width;
                     velocityX = 0;
-                    falling = false;
-                    jumping = false;
+
+
                 }
             }
         }
     }
     public void render(Graphics g)
     {
+
         g.setColor(Color.white);
         g.fillRect((int)x, (int)y, (int)width, (int)height);
 
+
         Graphics2D g2d = (Graphics2D) g;
         g.setColor(Color.red);
+
+
         g2d.draw(getBoundsBottom());
         g2d.draw(getBoundsLeft());
         g2d.draw(getBoundsRight());
@@ -77,7 +91,7 @@ public class Player extends GameObject {
 
     public Rectangle getBoundsBottom()
     {
-        return new Rectangle((int)((int)x +(width/2)-((width/2)/2)), (int)y + (int)(height/2) + 5, (int)width/2, (int)(height/2)-10);
+        return new Rectangle((int)((int)x +(width/2)-((width/2)/2)), (int)y + (int)(height/2), (int)width/2, (int)(height/2));
     }
     public Rectangle getBoundsTop()
     {

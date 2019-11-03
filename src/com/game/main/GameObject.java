@@ -26,6 +26,14 @@ public abstract class GameObject {
         this.y = y;
         this.id = id;
     }
+    public GameObject(float x, float y, ID id, float height, float width)
+    {
+        this.x = x;
+        this.y = y;
+        this.id = id;
+        this.height = height;
+        this.width = width;
+    }
 
     //Abstract functions must be implemented in the classes that inherit from GameObject
     public abstract void tick();
@@ -64,10 +72,10 @@ public abstract class GameObject {
     public void setHeight(float height) {this.height = height;}
 
     public Rectangle getBounds(){return null;}
-    public Rectangle getBoundsBottom() {return null;}
-    public Rectangle getBoundsLeft(){return null;}
-    public Rectangle getBoundsRight(){return null;}
-    public Rectangle getBoundsTop(){return null;}
+    public abstract Rectangle getBoundsBottom();
+    public abstract Rectangle getBoundsLeft();
+    public abstract Rectangle getBoundsRight();
+    public abstract Rectangle getBoundsTop();
 
 
 
