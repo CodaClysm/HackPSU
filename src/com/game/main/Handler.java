@@ -13,7 +13,7 @@ public class Handler {
         //Loops through every gameobject in the game.
         for(int i = 0; i< object.size(); i++)
         {
-            
+
             //tempObject gets the ith object in the list.
             GameObject tempObject = object.get(i);
             tempObject.tick();
