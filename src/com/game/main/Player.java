@@ -12,6 +12,8 @@ public class Player extends GameObject {
     private Weapon weapon;
     private float damageMult;
     private int experience;
+    private int swingTimer;
+
 
 
 
@@ -25,6 +27,8 @@ public class Player extends GameObject {
         handler.object.add(weapon);
         damageMult = 1;
         experience = 0;
+        health = 100;
+
 
     }
 
@@ -36,7 +40,11 @@ public class Player extends GameObject {
             velocityY += gravity;
         }
         checkCollision();
-        checkWeapCollision();
+        if(weapon.attacking) {
+            weapon.attacking = false;
+            checkWeapCollision();
+        }
+
     }
 
     private void checkCollision()
@@ -120,7 +128,7 @@ public class Player extends GameObject {
             if(tempObject.getId() == ID.Enemy) {
                 if (weapon.getBounds().intersects(tempObject.getBounds())) {
                     Enemy enemy = (Enemy)tempObject;
-                    enemy.dealDamage(damageMult * weapon.getDamage());
+                    enemy.dealDamage((int)damageMult * weapon.getDamage());
                 }
             }
         }
@@ -137,7 +145,6 @@ public class Player extends GameObject {
     }
     public void render(Graphics g)
     {
-
         g.setColor(Color.white);
         g.fillRect((int)x, (int)y, (int)width, (int)height);
         g.setColor(Color.red);
