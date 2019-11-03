@@ -20,7 +20,7 @@ public class FlyingEnemy extends GameObject {
         this.handler = handler;
         height =32;
         width = 32;
-        health = 225;
+        health =  25;
         damage = 25;
         swingTimer = 0;
 
@@ -46,12 +46,16 @@ public class FlyingEnemy extends GameObject {
         if(Math.hypot(x-player.x, y-player.y) < 352) {
             pursuePlayer();
         }
+        swingTimer++;
     }
-    public void dealDamage(int damage)
+
+    public void takeDamage(int damage)
     {
         health = health - damage;
         if(health < 0)
         {
+            Experience exp = new Experience(x+(width/2), y, handler, ID.Experience, 35);
+            handler.addObject(exp);
             handler.removeObject(this);
         }
     }
@@ -66,11 +70,11 @@ public class FlyingEnemy extends GameObject {
         {
             this.setVelocityX(-2);
         }
-        if(this.y < player.getY() + (player.getHeight()/2))
+        if(this.y < player.getY() + (player.getHeight()/4))
         {
             this.setVelocityY(2);
         }
-        if(this.y > player.getY() + (player.getHeight()/2))
+        if(this.y > player.getY() + (player.getHeight()/4))
         {
             this.setVelocityY(-2);
         }
@@ -86,15 +90,12 @@ public class FlyingEnemy extends GameObject {
             GameObject tempObject = handler.object.get(i);
             if(tempObject.getId() == ID.Block || tempObject.getId() == ID.LadderBlock)
             {
+
                 if(getBoundsBottom().intersects(tempObject.getBounds()))
                 {
-                    climbing = false;
-                    if(!jumping)
-                    {
-                        velocityY = 0;
+
                         y = tempObject.getY() - height;
-                    }
-                    jumping = false;
+
                 }
                 else
                 {
@@ -119,13 +120,14 @@ public class FlyingEnemy extends GameObject {
             else if(tempObject.getId() == ID.Player)
             {
                 Player tempPlayer = (Player) tempObject;
-                if(tempObject.getBounds().intersects(this.getBounds()))
+                if(tempPlayer.getBounds().intersects(this.getBounds()))
                 {
                     if(swingTimer > 60)
                     {
                         swingTimer = 0;
                         System.out.println("Damage dealt to player!");
                         tempPlayer.takeDamage(damage);
+
                     }
 
                 }
@@ -164,6 +166,6 @@ public class FlyingEnemy extends GameObject {
         return new Rectangle((int)x, (int)y+5, 5, (int)height-10);
     }
     public Rectangle getBounds() {
-        return null;
+        return new Rectangle((int)x, (int)y, (int)width ,(int)height);
     }
 }

@@ -164,8 +164,18 @@ public class Player extends GameObject {
             GameObject tempObject = handler.object.get(i);
             if(tempObject.getId() == ID.Enemy) {
                 if (weapon.getBounds().intersects(tempObject.getBounds())) {
-                    Enemy enemy = (Enemy)tempObject;
-                    enemy.takeDamage((int)damageMult * weapon.getDamage());
+
+                    if(tempObject instanceof Enemy)
+                    {
+                        Enemy enemy = (Enemy)tempObject;
+                        enemy.takeDamage((int)damageMult * weapon.getDamage());
+                    }
+                    else if(tempObject instanceof FlyingEnemy)
+                    {
+                        FlyingEnemy enemy2 = (FlyingEnemy)tempObject;
+                        enemy2.takeDamage((int)damageMult * weapon.getDamage());
+                    }
+
                 }
             }
         }
