@@ -10,6 +10,9 @@ public class FlyingEnemy extends GameObject {
     private Handler handler;
     int health;
     Player player;
+    private int damage;
+    private int swingTimer;
+
 
     public FlyingEnemy () {}
     public FlyingEnemy(float x, float y, Handler handler, ID id) {
@@ -17,7 +20,9 @@ public class FlyingEnemy extends GameObject {
         this.handler = handler;
         height =32;
         width = 32;
-        health = 25;
+        health = 225;
+        damage = 25;
+        swingTimer = 0;
 
         for(int i = 0; i < handler.object.size(); i++)
         {
@@ -38,8 +43,9 @@ public class FlyingEnemy extends GameObject {
         y += velocityY;
 
         checkCollision();
-        if(Math.hypot(x-player.x, y-player.y) < 352);
-        pursuePlayer();
+        if(Math.hypot(x-player.x, y-player.y) < 352) {
+            pursuePlayer();
+        }
     }
     public void dealDamage(int damage)
     {
@@ -60,11 +66,11 @@ public class FlyingEnemy extends GameObject {
         {
             this.setVelocityX(-2);
         }
-        if(this.y < player.getY())
+        if(this.y < player.getY() + (player.getHeight()/2))
         {
             this.setVelocityY(2);
         }
-        if(this.y > player.getY())
+        if(this.y > player.getY() + (player.getHeight()/2))
         {
             this.setVelocityY(-2);
         }
@@ -82,23 +88,45 @@ public class FlyingEnemy extends GameObject {
             {
                 if(getBoundsBottom().intersects(tempObject.getBounds()))
                 {
-
-                    y = tempObject.getY() - height;
-
+                    climbing = false;
+                    if(!jumping)
+                    {
+                        velocityY = 0;
+                        y = tempObject.getY() - height;
+                    }
+                    jumping = false;
+                }
+                else
+                {
+                    falling = true;
                 }
                 if(getBoundsTop().intersects(tempObject.getBounds()))
                 {
                     y = tempObject.getY() + tempObject.height;
-
+                    velocityY = 0;
                 }
                 if(getBoundsRight().intersects(tempObject.getBounds()))
                 {
                     x = tempObject.getX() - width;
-
+                    velocityX = 0;
                 }
                 if(getBoundsLeft().intersects(tempObject.getBounds()))
                 {
                     x = tempObject.getX() + width;
+                    velocityX = 0;
+                }
+            }
+            else if(tempObject.getId() == ID.Player)
+            {
+                Player tempPlayer = (Player) tempObject;
+                if(tempObject.getBounds().intersects(this.getBounds()))
+                {
+                    if(swingTimer > 60)
+                    {
+                        swingTimer = 0;
+                        System.out.println("Damage dealt to player!");
+                        tempPlayer.takeDamage(damage);
+                    }
 
                 }
             }
